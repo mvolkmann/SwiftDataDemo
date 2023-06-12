@@ -96,6 +96,11 @@ struct ContentView: View {
                                 .foregroundStyle(completed ? .green : .gray)
                                 .font(.largeTitle)
                         }
+                        // When a Button is inside a List row,
+                        // its tap target extends to the entire row.
+                        // To prevent this, set its buttonStyle to
+                        // .borderless or .plain.
+                        .buttonStyle(.plain)
                     }
                     .swipeActions {
                         Button(role: .destructive) {
