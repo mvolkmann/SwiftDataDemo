@@ -4,34 +4,30 @@ import SwiftUI
 struct UpdateTodo: View {
     @Bindable var todo: Todo
     @Environment(\.dismiss) var dismiss
+    @FocusState private var focus: AnyKeyPath?
+    @State private var completed: Bool
+    @State private var title: String
 
-    // @State private var completed: Bool
-    // @State private var title: String
-
-    /*
-     private var todo: Todo
-     init(todo: Todo) {
-         self.todo = todo
-         _title = State(initialValue: todo.title)
-         _completed = State(initialValue: todo.completed)
-     }
-     */
+    init(todo: Todo) {
+        self.todo = todo
+        _title = State(initialValue: todo.title)
+        _completed = State(initialValue: todo.completed)
+        focus = \Self.title
+    }
 
     private func updateTodo() {
-        // todo.title = title
-        // todo.completed = completed
+        todo.title = title
+        todo.completed = completed
         dismiss()
     }
 
     var body: some View {
         List {
-            // TextField("Title", text: $title)
-            TextField("Title", text: $todo.title)
-                // .focused($focus, equals: \Self.title) // TODO: not working
+            TextField("Title", text: $title)
+                .focused($focus, equals: \Self.title) // TODO: not working
                 .textFieldStyle(.roundedBorder)
                 .onSubmit { updateTodo() }
-            // Toggle("Completed", isOn: $completed)
-            Toggle("Completed", isOn: $todo.completed)
+            Toggle("Completed", isOn: $completed)
             HStack {
                 Button("Save", action: updateTodo)
                     .buttonStyle(.borderedProminent)
@@ -43,11 +39,5 @@ struct UpdateTodo: View {
             Spacer()
         }
         .navigationTitle("Update Todo")
-        /*
-         .onAppear {
-             self.title = todo.title
-             self.completed = todo.completed
-         }
-         */
     }
 }
